@@ -12,8 +12,11 @@ window.addEventListener("DOMContentLoaded", () => {
   const mesh = new THREE.Mesh(geometry, material);
   scene.add(mesh);
 
+  const gridHelper = new THREE.GridHelper();
+  scene.add(gridHelper);
+
   const camera = new THREE.PerspectiveCamera(
-    75,
+    50,
     window.innerWidth / window.innerHeight,
     1,
     2000
@@ -37,6 +40,8 @@ window.addEventListener("DOMContentLoaded", () => {
   });
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.render(scene, camera);
+
+  console.log(mesh.position.distanceTo(camera.position));
 });
 // scene.background = new THREE.Color(0x123456);
 
