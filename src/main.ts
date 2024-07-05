@@ -13,14 +13,63 @@ window.addEventListener("DOMContentLoaded", () => {
    */
   const geometry = new THREE.BoxGeometry(1, 1, 1);
   const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
-  const mesh = new THREE.Mesh(geometry, material);
-  scene.add(mesh);
+  // const mesh = new THREE.Mesh(geometry, material);
+  // mesh.position.set(2, 1, 0);
+
+  /**
+   * Group : so we can do any action which will be aaplied to all the elements in the group
+   */
+
+  const group = new THREE.Group();
+  scene.add(group);
+
+  const cube1 = new THREE.Mesh(
+    new THREE.BoxGeometry(1, 1, 1),
+    new THREE.MeshBasicMaterial({ color: 0x123456 })
+  );
+  const cube2 = new THREE.Mesh(
+    new THREE.BoxGeometry(1, 1, 1),
+    new THREE.MeshBasicMaterial({ color: 0x00ff00 })
+  );
+  const cube3 = new THREE.Mesh(
+    new THREE.BoxGeometry(1, 1, 1),
+    new THREE.MeshBasicMaterial({ color: 0xffffff })
+  );
+  cube2.position.set(2, 0, 0);
+  cube3.position.set(-2, 0, 0);
+
+  group.add(cube1);
+  group.add(cube2);
+  group.add(cube3);
+
+  group.scale.y = 2;
+  group.rotation.y = 1;
+
+  // scene.add(mesh);
+
+  // mesh.scale.set(1, 0.5, 2);
+  /** Rotation
+   * - reorder must be done before the rotation for expected results
+   */
+  // mesh.rotation.reorder("YXZ");
+  // mesh.rotation.x = Math.PI * 0.25;
+  // mesh.rotation.y = Math.PI * 0.25;
+  // mesh.rotation.set(1, 1, 1, "XYZ");
+
+  /** used to normalize the values  */
+  // mesh.position.normalize();
+
+  /**
+   * axes helper helps to position the elements in 3d space
+   */
+  const axesHelper = new THREE.AxesHelper(5);
+  scene.add(axesHelper);
 
   /**
    * Grid helper which is being added to the scene used as a ref.
    */
-  const gridHelper = new THREE.GridHelper();
-  scene.add(gridHelper);
+  // const gridHelper = new THREE.GridHelper();
+  // scene.add(gridHelper);
 
   const camera = new THREE.PerspectiveCamera(
     50, // fov angle
@@ -37,6 +86,11 @@ window.addEventListener("DOMContentLoaded", () => {
   camera.position.x = 1;
   camera.position.y = 1;
   scene.add(camera);
+
+  /**
+   * lookAt is used set the camera view on something here we set on meash psotion so it is kept in the center of the screen
+   */
+  camera.lookAt(group.position);
 
   // render : scene from the camera point of view
   const canvas = document.querySelector(".world");
